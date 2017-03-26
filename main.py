@@ -48,7 +48,10 @@ class SignUp(webapp2.RequestHandler):
         invalid_verify = ""
         invalid_email = ""
         
-        escape = cgi.escape(username, password, verify, email, quote=True)
+        escape_username = cgi.escape(username, quote=True)
+        escape_password = cgi.escape(password, quote=True)
+        escape_verify = cgi.escape(verify, quote=True)
+        escape_email = cgi.escape(email, quote=True)
 
         if not valid_username(username):
             invalid_username = "Username is not valid."
