@@ -3,12 +3,59 @@ import cgi
 import re
 
 
-form = """<h1> Sign Up </h1><form method= "post" >
-        <strong><label>Username</label><input type= "text" name= "username" value= "%(username)s"/><div style="color: red">%(invalid_username)s</div><br>
-        <label>Password</label><input type= "password" name= "password" value=""/><div style="color: red">%(invalid_password)s</div><br>
-        <label>Verify Password</label><input type= "password" name= "verify" value=""/><div style="color: red">%(invalid_verify)s</div><br>
-        <label>Email(optional)</label><input type= "text" name= "email" value="%(email)s"/><div style="color: red">%(invalid_email)s</div><br></strong>
-        <input type="submit"/></form>
+form = """
+        <body>
+            <h1> Signup </h1>
+            <form method= "post" >
+                <table>
+                    <tr>
+                        <td>
+                            <label>Username</label>
+                        </td>
+                        <td>
+                            <input type= "text" name= "username" value= "%(username)s"/>
+                        </td>
+                        <td style="color: red">
+                            %(invalid_username)s
+                        <td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Password</label>
+                        </td>
+                        <td>
+                            <input type= "password" name= "password" value=""/>
+                        </td>
+                        <td style="color: red">
+                            %(invalid_password)s
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Verify Password</label>
+                        </td>
+                        <td>
+                            <input type= "password" name= "verify" value=""/>
+                        </td>
+                        <td style="color: red">
+                            %(invalid_verify)s
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Email (optional)</label>
+                        </td>
+                        <td>
+                            <input type= "text" name= "email" value="%(email)s"/>
+                        </td>
+                        <td style="color: red">
+                            %(invalid_email)s
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit"/>
+            </form>
+        </body>
         """
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
@@ -24,7 +71,7 @@ def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
 
-class SignUp(webapp2.RequestHandler):
+class Signup(webapp2.RequestHandler):
 
     def write_form(self, username="",email="", invalid_username="",invalid_password="",invalid_verify="",invalid_email=""):
                     
@@ -84,5 +131,5 @@ class Welcome(webapp2.RequestHandler):
 
        
 app = webapp2.WSGIApplication([
-    ('/', SignUp), ('/welcome', Welcome)
+    ('/', Signup), ('/welcome', Welcome)
 ], debug=True)
