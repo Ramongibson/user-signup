@@ -24,15 +24,15 @@ def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
 
-class MainPage(webapp2.RequestHandler):
+class SignUp(webapp2.RequestHandler):
 
     def write_form(self, username="",email="", invalid_username="",invalid_password="",invalid_verify="",invalid_email=""):
                     
         self.response.write(form % {"username":username,"email": email,
                                     "invalid_username": invalid_username,
                                     "invalid_password": invalid_password,
-                                    "invalid_verify":invalid_verify,
-                                    "invalid_email":invalid_email})
+                                    "invalid_verify": invalid_verify,
+                                    "invalid_email": invalid_email})
     
     def get(self):
         self.write_form()
@@ -47,8 +47,9 @@ class MainPage(webapp2.RequestHandler):
         invalid_password = ""
         invalid_verify = ""
         invalid_email = ""
+        
+        escape = cgi.escape(username, password, verify, email, quote=True)
 
-        replace = dict(username = username, email = email)
         if not valid_username(username):
             invalid_username = "Username is not valid."
             error = True
@@ -65,7 +66,7 @@ class MainPage(webapp2.RequestHandler):
             error = True
 
         if error:
-            self.write_form(username,email,invalid_username,invalid_password,invalid_verify,invalid_email)
+            self.write_form(username, email, invalid_username, invalid_password, invalid_verify, invalid_email)
         else:
             self.redirect('/welcome?username=' + username)
 
@@ -79,10 +80,6 @@ class Welcome(webapp2.RequestHandler):
         
 
        
-
-
-
-
 app = webapp2.WSGIApplication([
-    ('/', MainPage), ('/welcome', Welcome)
+    ('/signup', SignUp), ('/welcome', Welcome)
 ], debug=True)
