@@ -84,5 +84,5 @@ class Welcome(webapp2.RequestHandler):
 
        
 app = webapp2.WSGIApplication([
-    ('/signup', SignUp), ('/welcome', Welcome)
+    ('/', SignUp), ('/welcome', Welcome)
 ], debug=True)
